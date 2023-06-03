@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import '../assets/styles/main.scss';
+
 export default function PokemonCard({
 	pokemonData,
 	randomFirstNum,
@@ -13,7 +15,9 @@ export default function PokemonCard({
 	console.log(pokemonId);
 	return (
 		<section>
-			<button onClick={handleClick}>Random Pokemon</button>
+			<button className='bg-sky-500 hover:bg-sky-700' onClick={handleClick}>
+				Random Pokemon
+			</button>
 			<div className='pokemonContainer'>
 				{pokemonData.slice(randomFirstNum, randomSecondNum).map((item) => (
 					<div
