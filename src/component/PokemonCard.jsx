@@ -3,8 +3,9 @@ import '../assets/styles/main.scss';
 
 export default function PokemonCard({
 	pokemonData,
-	randomFirstNum,
-	randomSecondNum,
+	// randomFirstNum,
+	// randomSecondNum,
+	randomNum,
 	handleClick
 }) {
 	const [pokemonId, setPokemonId] = useState('');
@@ -12,7 +13,7 @@ export default function PokemonCard({
 		setPokemonId(item);
 	}
 
-	console.log(pokemonId);
+	// console.log(pokemonId);
 	return (
 		<section>
 			<button
@@ -22,7 +23,7 @@ export default function PokemonCard({
 				Random Pokemon
 			</button>
 			<div className='pokemonContainer mx-auto my-0'>
-				{pokemonData.slice(randomFirstNum, randomSecondNum).map((item) => (
+				{pokemonData.slice(0, randomNum).map((item) => (
 					<div
 						key={item.id}
 						className='pokemonCard flex flex-col items-center'
