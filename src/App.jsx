@@ -63,7 +63,10 @@ function App() {
 	if (isLoading) return '.....Loading';
 	return (
 		<>
-			<h1>Pokemon Memory Game</h1>
+			<div className='w-full py-5 bg-slate-400 text-center text-xl'>
+				<h1>Pokemon Memory Game</h1>
+			</div>
+
 			<PokemonCard
 				pokemonData={pokemonData}
 				randomFirstNum={randomFirstNum}

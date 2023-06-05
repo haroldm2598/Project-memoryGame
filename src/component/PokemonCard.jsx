@@ -15,14 +15,17 @@ export default function PokemonCard({
 	console.log(pokemonId);
 	return (
 		<section>
-			<button className='bg-sky-500 hover:bg-sky-700' onClick={handleClick}>
+			<button
+				className='px-5 py-2 bg-sky-400 hover:bg-sky-700 rounded'
+				onClick={handleClick}
+			>
 				Random Pokemon
 			</button>
-			<div className='pokemonContainer'>
+			<div className='pokemonContainer mx-auto my-0'>
 				{pokemonData.slice(randomFirstNum, randomSecondNum).map((item) => (
 					<div
 						key={item.id}
-						className='pokemonCard'
+						className='pokemonCard flex flex-col items-center'
 						onClick={() => getPokemonId(item.name)}
 					>
 						<img src={item.sprites.front_default} alt={item.name} />
