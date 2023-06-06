@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import '../assets/styles/main.scss';
 
-export default function PokemonCard({ pokemonData, randomNum }) {
+export default function PokemonCard({ pokemonData, randomNum, getPokeDex }) {
 	const [pokemonId, setPokemonId] = useState('');
 	function getPokemonId(id, item) {
 		setPokemonId({ id, item });
 	}
 
-	console.log(pokemonId);
+	// console.log(pokemonId);
+	// - Should get the setPokeDex first
+	// - And use it as a map for the post and remove the pokemonData as a main map
 	return (
 		<section>
 			<div className='pokemonContainer mx-auto my-0'>
@@ -19,6 +21,7 @@ export default function PokemonCard({ pokemonData, randomNum }) {
 					>
 						<img src={item.sprites.front_default} alt={item.name} />
 						<h3 className='pokemon__name'>{item.name}</h3>
+						{console.log(item.name)}
 					</div>
 				))}
 			</div>

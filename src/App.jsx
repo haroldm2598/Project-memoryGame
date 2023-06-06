@@ -9,6 +9,7 @@ function App() {
 		'https://pokeapi.co/api/v2/pokemon/'
 	);
 	const [pokemonData, setPokemonData] = useState([]);
+	const [pokeDex, setPokeDex] = useState([]);
 	const [isLoading, setIsloading] = useState(true);
 	const [randomNum, setRandomNum] = useState(0);
 
@@ -63,6 +64,10 @@ function App() {
 		return startIndexNum;
 	}
 
+	function getPokeDex(pokemon) {
+		setPokeDex(pokemon);
+	}
+
 	function handleEasyClick() {
 		setRandomNum(randomPokemonFunc());
 	}
@@ -74,7 +79,11 @@ function App() {
 				<h1>Pokemon Memory Game</h1>
 			</div>
 			<PokemonButton handleEasyClick={handleEasyClick} />
-			<PokemonCard pokemonData={pokemonData} randomNum={randomNum} />
+			<PokemonCard
+				pokemonData={pokemonData}
+				randomNum={randomNum}
+				getPokeDex={getPokeDex}
+			/>
 		</>
 	);
 }
