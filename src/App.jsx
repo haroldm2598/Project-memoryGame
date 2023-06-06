@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './assets/styles/main.scss';
 import PokemonCard from './component/PokemonCard';
 import axios from 'axios';
+import PokemonButton from './component/PokemonButton';
 
 function App() {
 	const [currentUrl, setCurrentUrl] = useState(
@@ -9,8 +10,6 @@ function App() {
 	);
 	const [pokemonData, setPokemonData] = useState([]);
 	const [isLoading, setIsloading] = useState(true);
-	const [randomFirstNum, setRandomFirstNum] = useState(0);
-	const [randomSecondNum, setRandomSecondNum] = useState(0);
 	const [randomNum, setRandomNum] = useState(0);
 
 	useEffect(() => {
@@ -50,30 +49,21 @@ function App() {
 	}, [currentUrl]);
 
 	function randomPokemonFunc() {
-		// const firstNum = Math.ceil(Math.random() * 10);
-		// const secondNum = Math.ceil(Math.random() * 10) + 10;
-
-		// return [firstNum, secondNum];
 		let startIndexNum;
-		let lastIndexNum;
 		const randomIndexNum = Math.ceil(Math.random() * 20);
+
 		if (randomIndexNum >= 16) {
 			startIndexNum = 16;
 		} else if (randomIndexNum <= 4) {
-			lastIndexNum = 4;
+			startIndexNum = 0;
 		} else {
 			startIndexNum = randomIndexNum;
-			lastIndexNum = randomIndexNum;
 		}
 
-		console.log(startIndexNum);
-		console.log(lastIndexNum);
-		return randomIndexNum;
+		return startIndexNum;
 	}
 
-	function handleClick() {
-		// setRandomFirstNum(randomPokemonFunc()[0]);
-		// setRandomSecondNum(randomPokemonFunc()[1]);
+	function handleEasyClick() {
 		setRandomNum(randomPokemonFunc());
 	}
 
@@ -83,14 +73,8 @@ function App() {
 			<div className='w-full py-5 bg-slate-400 text-center text-xl'>
 				<h1>Pokemon Memory Game</h1>
 			</div>
-
-			<PokemonCard
-				pokemonData={pokemonData}
-				// randomFirstNum={randomFirstNum}
-				// randomSecondNum={randomSecondNum}
-				randomNum={randomNum}
-				handleClick={handleClick}
-			/>
+			<PokemonButton handleEasyClick={handleEasyClick} />
+			<PokemonCard pokemonData={pokemonData} randomNum={randomNum} />
 		</>
 	);
 }
