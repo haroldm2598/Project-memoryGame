@@ -12,6 +12,7 @@ function App() {
 	const [pokeDex, setPokeDex] = useState([]);
 	const [randomNum, setRandomNum] = useState(0);
 	const [scoreResult, setScoreResult] = useState(0);
+	const [isPokemonSelect, SetIsPokemonSelect] = useState('');
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -59,11 +60,37 @@ function App() {
 		setPokeDex(pokemonData.slice(firstRandom, secondRandom));
 	}
 
-	// Where all logic come
+	/*
+		Where all logic come
+		DONE - store the array in PokeDex 
+		DONE - create new array where it store the selected || clicked object then 
+		DONE - Add a Boolean value to the object if the array of object has already true 
+		WORKING ... - Then add click event if this is click then add score +1
+		- Else if already clicked then deducted the score -1 or Gameover
+		- if the score is already at this length then the player is Winner
+	*/
 	function gameBoard() {
-		let score = 2;
-		setScoreResult((oldScore) => oldScore + score);
+		let score = 0;
+		const result = isPokemonSelect.find((item) =>
+			item.isClick === true ? '-1 ka nyan lods' : 'tama kana lods'
+		);
+		console.log(result);
+		setScoreResult((oldScore) => (score = oldScore + 1));
 	}
+
+	function getPokemonAnswer(pokeId, pokeName) {
+		SetIsPokemonSelect((oldState) => [
+			...oldState,
+			{ pokeId, pokeName, isClick: true }
+		]);
+		gameBoard();
+	}
+
+	// console.log(
+	// 	isPokemonSelect.find((item) =>
+	// 		item?.isClick === true ? '+1 lods' : 'meron na lods talo ka'
+	// 	)
+	// );
 
 	return (
 		<>
@@ -71,9 +98,9 @@ function App() {
 				<h1>Pokemon Memory Game</h1>
 			</div>
 			<PokemonButton randomNum={randomNum} handleClick={handleClick} />
-			<PokemonCard pokeDex={pokeDex} />
+			<PokemonCard pokeDex={pokeDex} getPokemonAnswer={getPokemonAnswer} />
 			<div>
-				<h3 onClick={gameBoard}>Scoreboard: {scoreResult}</h3>
+				<h3>Scoreboard: {scoreResult}</h3>
 			</div>
 		</>
 	);
