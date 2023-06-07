@@ -10,24 +10,14 @@ function App() {
 	);
 	const [pokemonData, setPokemonData] = useState([]);
 	const [pokeDex, setPokeDex] = useState([]);
-	const [isLoading, setIsloading] = useState(true);
 	const [randomNum, setRandomNum] = useState(0);
+	const [scoreResult, setScoreResult] = useState(0);
 
 	useEffect(() => {
-		setIsloading(true);
 		const fetchData = async () => {
 			try {
-				// USING ONLY FETCH
-				// const response = await fetch(currentUrl);
-				// const data = await response.json();
-				// setPokemonData(data.results);
-				// console.log(pokemonData);
-
-				// USING ONLY AXIOS
 				const response = await axios.get(currentUrl);
 				getPokemonDetails(response.data.results);
-
-				setIsloading(false);
 			} catch (e) {
 				console.log(e);
 			}
@@ -64,26 +54,27 @@ function App() {
 		return startIndexNum;
 	}
 
-	function getPokeDex(pokemon) {
-		setPokeDex(pokemon);
-	}
-
-	function handleEasyClick() {
+	function handleClick(firstRandom, secondRandom) {
 		setRandomNum(randomPokemonFunc());
+		setPokeDex(pokemonData.slice(firstRandom, secondRandom));
 	}
 
-	if (isLoading) return '.....Loading';
+	// Where all logic come
+	function gameBoard() {
+		let score = 2;
+		setScoreResult((oldScore) => oldScore + score);
+	}
+
 	return (
 		<>
 			<div className='w-full py-5 bg-slate-400 text-center text-xl'>
 				<h1>Pokemon Memory Game</h1>
 			</div>
-			<PokemonButton handleEasyClick={handleEasyClick} />
-			<PokemonCard
-				pokemonData={pokemonData}
-				randomNum={randomNum}
-				getPokeDex={getPokeDex}
-			/>
+			<PokemonButton randomNum={randomNum} handleClick={handleClick} />
+			<PokemonCard pokeDex={pokeDex} />
+			<div>
+				<h3 onClick={gameBoard}>Scoreboard: {scoreResult}</h3>
+			</div>
 		</>
 	);
 }
