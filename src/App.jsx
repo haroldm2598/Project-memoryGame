@@ -12,7 +12,8 @@ function App() {
 	const [pokeDex, setPokeDex] = useState([]);
 	const [randomNum, setRandomNum] = useState(0);
 	const [scoreResult, setScoreResult] = useState(0);
-	const [isPokemonSelect, SetIsPokemonSelect] = useState('');
+	const [isPokemonSelect, SetIsPokemonSelect] = useState([]);
+	const [gameScore, setGameScore] = useState(0);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -41,23 +42,23 @@ function App() {
 	}, [currentUrl]);
 
 	function randomPokemonFunc() {
-		let startIndexNum;
+		// let startIndexNum;
 		const randomIndexNum = Math.ceil(Math.random() * 20);
 
-		if (randomIndexNum >= 16) {
-			startIndexNum = 16;
-		} else if (randomIndexNum <= 4) {
-			startIndexNum = 0;
-		} else {
-			startIndexNum = randomIndexNum;
-		}
+		// if (randomIndexNum >= 16) {
+		// 	startIndexNum = 16;
+		// } else {
+		// 	startIndexNum = randomIndexNum;
+		// }
 
-		return startIndexNum;
+		return randomIndexNum >= 16 ? 16 : randomIndexNum;
 	}
 
-	function handleClick(firstRandom, secondRandom) {
+	function handleClick(firstRandom, secondRandom, gameScoreLimit) {
 		setRandomNum(randomPokemonFunc());
 		setPokeDex(pokemonData.slice(firstRandom, secondRandom));
+		setGameScore(gameScoreLimit);
+		setScoreResult(0);
 	}
 
 	/*
@@ -67,15 +68,16 @@ function App() {
 		DONE - Add a Boolean value to the object if the array of object has already true 
 		WORKING ... - Then add click event if this is click then add score +1
 		- Else if already clicked then deducted the score -1 or Gameover
-		- if the score is already at this length then the player is Winner
+		DONE - if the score is already at this length then the player is Winner
 	*/
 	function gameBoard() {
-		let score = 0;
-		const result = isPokemonSelect.find((item) =>
-			item.isClick === true ? '-1 ka nyan lods' : 'tama kana lods'
+		// if (scoreResult === gameScore) return;
+		setScoreResult((oldScore) => oldScore + 1);
+		const resultFind = isPokemonSelect.find((item) => item.isClick === true);
+		const resultMap = isPokemonSelect.map((item) =>
+			item.isClick === resultFind.isClick ? 'talo ka lods' : 'panalo ka lods'
 		);
-		console.log(result);
-		setScoreResult((oldScore) => (score = oldScore + 1));
+		console.log(resultMap);
 	}
 
 	function getPokemonAnswer(pokeId, pokeName) {
@@ -85,12 +87,6 @@ function App() {
 		]);
 		gameBoard();
 	}
-
-	// console.log(
-	// 	isPokemonSelect.find((item) =>
-	// 		item?.isClick === true ? '+1 lods' : 'meron na lods talo ka'
-	// 	)
-	// );
 
 	return (
 		<>
