@@ -42,26 +42,7 @@ function App() {
 	}, [currentUrl]);
 
 	useEffect(() => {
-		// - where does gameBoard will deploy not causing delay
-		// - Why array is delay called if inside the function console?
-
-		function gameBoard() {
-			// if (scoreResult === gameScore) return;
-			// setScoreResult((oldScore) => oldScore + 1);
-
-			let set = new Set();
-			isPokemonSelect.some((item) => {
-				if (set.size === set.add(item.pokeName).size) {
-					setPokeDex([]);
-					SetIsPokemonSelect([]);
-					setScoreResult(0);
-				} else {
-					setScoreResult((oldScore) => oldScore + 1);
-				}
-			});
-		}
-
-		return () => gameBoard();
+		gameBoard();
 	}, [isPokemonSelect]);
 
 	function randomPokemonFunc() {
@@ -78,12 +59,26 @@ function App() {
 		SetIsPokemonSelect([]);
 	}
 
+	function gameBoard() {
+		if (scoreResult === gameScore) return;
+
+		let set = new Set();
+		isPokemonSelect.some((item) => {
+			if (set.size === set.add(item.pokeName).size) {
+				setPokeDex([]);
+				SetIsPokemonSelect([]);
+				setScoreResult(0);
+			} else {
+				setScoreResult(scoreResult + 1);
+			}
+		});
+	}
+
 	function getPokemonAnswer(pokeId, pokeName) {
 		SetIsPokemonSelect((oldState) => [
 			...oldState,
 			{ pokeId, pokeName, isClick: true }
 		]);
-		// gameBoard();
 	}
 
 	return (
@@ -91,11 +86,12 @@ function App() {
 			<div className='w-full py-5 bg-slate-400 text-center text-xl'>
 				<h1>Pokemon Memory Game</h1>
 			</div>
-			<PokemonButton randomNum={randomNum} handleClick={handleClick} />
+			<PokemonButton
+				randomNum={randomNum}
+				scoreResult={scoreResult}
+				handleClick={handleClick}
+			/>
 			<PokemonCard pokeDex={pokeDex} getPokemonAnswer={getPokemonAnswer} />
-			<div>
-				<h3>Scoreboard: {scoreResult}</h3>
-			</div>
 		</>
 	);
 }

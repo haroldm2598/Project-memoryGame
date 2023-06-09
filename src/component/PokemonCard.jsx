@@ -7,7 +7,7 @@ export default function PokemonCard({ pokeDex, getPokemonAnswer }) {
 				{pokeDex.map((item) => (
 					<div
 						key={item.id}
-						className='pokemonCard flex flex-col items-center transition delay-150 duration-300 ease-in-out hover:scale-125'
+						className='pokemonCard flex flex-col items-center cursor-pointer transition delay-150 duration-300 ease-in-out hover:scale-125'
 						onClick={() => getPokemonAnswer(item.id, item.name)}
 					>
 						<img src={item.sprites.front_default} alt={item.name} />
