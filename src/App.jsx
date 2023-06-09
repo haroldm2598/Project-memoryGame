@@ -41,15 +41,31 @@ function App() {
 		fetchData();
 	}, [currentUrl]);
 
-	function randomPokemonFunc() {
-		// let startIndexNum;
-		const randomIndexNum = Math.ceil(Math.random() * 20);
+	useEffect(() => {
+		// - where does gameBoard will deploy not causing delay
+		// - Why array is delay called if inside the function console?
 
-		// if (randomIndexNum >= 16) {
-		// 	startIndexNum = 16;
-		// } else {
-		// 	startIndexNum = randomIndexNum;
-		// }
+		function gameBoard() {
+			// if (scoreResult === gameScore) return;
+			// setScoreResult((oldScore) => oldScore + 1);
+
+			let set = new Set();
+			isPokemonSelect.some((item) => {
+				if (set.size === set.add(item.pokeName).size) {
+					setPokeDex([]);
+					SetIsPokemonSelect([]);
+					setScoreResult(0);
+				} else {
+					setScoreResult((oldScore) => oldScore + 1);
+				}
+			});
+		}
+
+		return () => gameBoard();
+	}, [isPokemonSelect]);
+
+	function randomPokemonFunc() {
+		const randomIndexNum = Math.ceil(Math.random() * 20);
 
 		return randomIndexNum >= 16 ? 16 : randomIndexNum;
 	}
@@ -59,25 +75,7 @@ function App() {
 		setPokeDex(pokemonData.slice(firstRandom, secondRandom));
 		setGameScore(gameScoreLimit);
 		setScoreResult(0);
-	}
-
-	/*
-		Where all logic come
-		DONE - store the array in PokeDex 
-		DONE - create new array where it store the selected || clicked object then 
-		DONE - Add a Boolean value to the object if the array of object has already true 
-		WORKING ... - Then add click event if this is click then add score +1
-		- Else if already clicked then deducted the score -1 or Gameover
-		DONE - if the score is already at this length then the player is Winner
-	*/
-	function gameBoard() {
-		// if (scoreResult === gameScore) return;
-		setScoreResult((oldScore) => oldScore + 1);
-		const resultFind = isPokemonSelect.find((item) => item.isClick === true);
-		const resultMap = isPokemonSelect.map((item) =>
-			item.isClick === resultFind.isClick ? 'talo ka lods' : 'panalo ka lods'
-		);
-		console.log(resultMap);
+		SetIsPokemonSelect([]);
 	}
 
 	function getPokemonAnswer(pokeId, pokeName) {
@@ -85,7 +83,7 @@ function App() {
 			...oldState,
 			{ pokeId, pokeName, isClick: true }
 		]);
-		gameBoard();
+		// gameBoard();
 	}
 
 	return (
